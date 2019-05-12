@@ -3,34 +3,17 @@
   top: 0;
   left: 0;
   right: 0;
-  height: 40px;
+  height: 100px;
   box-shadow: 0 0 2px rgba(0,0,0,.5);
-  padding: 10px;
+  padding: 10px 0;
   display: flex;
   align-items: center;
-  background-color: #fff;
+  background-color: #fafafa;
   z-index: 1;
 }
 
 .nav__logo-wrapper {
   text-decoration: none;
-}
-
-.nav__logo {
-  font-size: 1em;
-  margin: 0;
-  user-select: none;
-  color: #222;
-  text-decoration: none;
-}
-
-.btn--nav {
-  font-size: 0.8em;
-  text-transform: uppercase;
-}
-
-.btn--nav + .btn--nav {
-  margin-left: 1em;
 }
 
 @media screen and (max-width: 400px) {

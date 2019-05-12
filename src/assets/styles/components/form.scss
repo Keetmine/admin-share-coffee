@@ -11,37 +11,23 @@
   border-top: none;
 }
 
-.form__field-input:focus ~ .form__field-label {
-  color: #333;
-  background-color: #EDEDED;
-}
-
 .form__field-input:focus {
   background-color: #EDEDED;
   color: #333;
 }
 
-.form__field-label {
-  display: flex;
-  padding: 0 10px;
-  margin: 0;
-  z-index: 1;
-  font-size: 15px;
-  color: #999;
-  font-weight: 400;
-  user-select: none;
-  cursor: text;
-}
 
 .form__field-input {
   position: relative;
-  padding: 10px;
-  font-size: 12px;
+  padding: 20px 0;
+  font-size: 16px;
   width: calc(100% - 20px);
   color: #666;
   border: none;
+  border-bottom: 1px solid cornflowerblue;
   outline: 0;
-  letter-spacing: 0.05em;
+  background: transparent;
+  margin-top: 10px;
 }
 
 .form__submit-btn-wrapper {
@@ -54,12 +40,14 @@
 .form__submit-btn {
   border: 1px solid #6CC0E5;
   padding: 0.5em 1em;
-  border-radius: 3px;
   background-color: #6CC0E5;
   color: white;
   display: block;
-  margin: 0 auto;
   position: relative;
+  margin: 20px auto 0;
+  min-width: 120px;
+  border-radius: 25px;
+
 }
 
 .js-form__err-animation {

@@ -1,4 +1,3 @@
-@import "components/buttons.scss";
 @import "components/form.scss";
 @import "components/containers.scss";
 @import "components/navbar.scss";
@@ -10,8 +9,8 @@ html {
 body {
   margin: 0;
   width: 100%;
-  padding: 60px 0 0;
-  height: calc(100% - 60px);
+  padding: 120px 0 0;
+  height: calc(100% - 120px);
   font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
   background-color: #FAFAFA;
 

@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 
 import {logout} from '../actions';
+import {ButtonLink} from '../ui/components/button';
 
 const mapStateToProps = state => ({
 	loggedIn: state.auth.loggedIn,
@@ -25,12 +26,12 @@ class Navbar extends Component {
 			<div className='nav'>
 				<div className='nav__wrapper'>
 					<Link to='/' className='nav__logo-wrapper'>
-						<h1 className='nav__logo'>Share&Coffee</h1>
+						<img src={require('../assets/img/logo.png')} alt='' />
 					</Link>
 					{this.props.loggedIn ?
-						<Link to='/'  className='btn' onClick={this.DoLogout}>Logout</Link>
+						<ButtonLink to='/' onClick={this.DoLogout}>Logout</ButtonLink>
 						:
-						<Link to='/register' className='btn'>Register</Link>
+						<ButtonLink to='/register'>Sign up</ButtonLink>
 					}
 				</div>
 			</div>

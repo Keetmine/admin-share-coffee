@@ -12,9 +12,9 @@ class Home extends React.Component {
 
 	render() {
 		return (
-			<div>
-					<h1>Welcome to share&coffee!</h1>
-					<Login/>
+			<div className='login_container'>
+				<h1>Welcome to share&coffee!</h1>
+				<Login/>
 			</div>
 		);
 	}

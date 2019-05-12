@@ -7,11 +7,19 @@
 }
 
 .nav__wrapper {
-	max-width: 768px;
+	max-width: calc(768px + 16px * 2);
 	width: 100%;
+	padding: 0 16px;
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
 	margin: 0 auto;
+}
+
+.login_container {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	margin: auto;
 }
 
