@@ -2,9 +2,8 @@ import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
-import LoadingButton from './LoadingButton';
 
-import {logout, clearError} from '../actions';
+import {logout} from '../actions';
 
 const mapStateToProps = state => ({
 	loggedIn: state.auth.loggedIn,
@@ -20,33 +19,18 @@ class Navbar extends Component {
 		this.props.dispatch(logout());
 	}
 
-	DoClearError() {
-		this.props.dispatch(clearError());
-	}
 
 	render() {
 		return (
 			<div className='nav'>
 				<div className='nav__wrapper'>
-					<Link to='/' className='nav__logo-wrapper' onClick={this.DoClearError}>
+					<Link to='/' className='nav__logo-wrapper'>
 						<h1 className='nav__logo'>Share&Coffee</h1>
 					</Link>
 					{this.props.loggedIn ?
-						<div>
-							<Link to='/dashboard' className='btn btn--dash btn--nav'>Dashboard</Link>
-							{this.props.currentlySending ? (
-								<LoadingButton className='btn--nav'/>
-							) : (
-								<a href='#' className='btn btn--login btn--nav' onClick={this.DoLogout}>Logout</a>
-							)}
-						</div>
+						<Link to='/'  className='btn' onClick={this.DoLogout}>Logout</Link>
 						:
-						<div>
-							<Link to='/register' className='btn btn--login btn--nav'
-								  onClick={this.DoClearError}>Register</Link>
-							<Link to='/login' className='btn btn--login btn--nav'
-								  onClick={this.DoClearError}>Login</Link>
-						</div>
+						<Link to='/register' className='btn'>Register</Link>
 					}
 				</div>
 			</div>

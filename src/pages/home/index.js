@@ -1,5 +1,6 @@
 import React from 'react';
 import {connect} from 'react-redux';
+import Login from "../auth/Login";
 
 function select(state) {
 	return {
@@ -11,12 +12,10 @@ class Home extends React.Component {
 
 	render() {
 		return (
-			<article>
-				<section className='text-section'>
+			<div>
 					<h1>Welcome to share&coffee!</h1>
-					<h2>Please log in!</h2>
-				</section>
-			</article>
+					<Login/>
+			</div>
 		);
 	}
 }

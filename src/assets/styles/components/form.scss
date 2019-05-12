@@ -22,14 +22,11 @@
 }
 
 .form__field-label {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  padding: 20px 16px 0;
+  display: flex;
+  padding: 0 10px;
   margin: 0;
   z-index: 1;
-  font-size: .8em;
+  font-size: 15px;
   color: #999;
   font-weight: 400;
   user-select: none;
@@ -38,8 +35,9 @@
 
 .form__field-input {
   position: relative;
-  padding: 1.625em 16px;
-  width: 100%;
+  padding: 10px;
+  font-size: 12px;
+  width: calc(100% - 20px);
   color: #666;
   border: none;
   outline: 0;
@@ -47,16 +45,13 @@
 }
 
 .form__submit-btn-wrapper {
-  padding: 2em 1em;
-  width: 100%;
+  padding: 20px;
   background-color: #fff;
   display: flex;
   justify-content: center;
 }
 
 .form__submit-btn {
-  border: none;
-  background-color: #fff;
   border: 1px solid #6CC0E5;
   padding: 0.5em 1em;
   border-radius: 3px;
