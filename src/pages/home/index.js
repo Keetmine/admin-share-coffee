@@ -1,23 +1,32 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import Login from "../auth/Login";
+import Login from '../auth/Login';
+import HomeDashboard from './home';
+import PropTypes from 'prop-types';
 
-function select(state) {
-	return {
-		data: state
-	};
-}
+const mapStateToProps = state => ({
+	loggedIn: state.auth.loggedIn
+});
 
 class Home extends React.Component {
 
 	render() {
 		return (
-			<div className='login_container'>
-				<h1>Welcome to share&coffee!</h1>
-				<Login/>
+			<div className='login_container' style={{    width: '100%'}}>
+				<h1>Admin panel</h1>
+				{!this.props.loggedIn ?
+					<Login/>
+					:
+					<HomeDashboard />
+				}
+
 			</div>
 		);
 	}
 }
 
-export default connect(select)(Home);
+Home.propTypes = {
+	loggedIn: PropTypes.bool
+};
+
+export default connect(mapStateToProps)(Home);

@@ -4,7 +4,9 @@ import {
 	SET_AUTH,
 	SENDING_REQUEST,
 	REQUEST_ERROR,
-	CLEAR_ERROR
+	CLEAR_ERROR,
+	LOGIN_REQUEST,
+	LOGOUT
 } from '../actions/constants';
 
 export default function (state = initialState, action) {
@@ -19,6 +21,10 @@ export default function (state = initialState, action) {
 			return {...state, error: action.error};
 		case CLEAR_ERROR:
 			return {...state, error: ''};
+		case LOGIN_REQUEST:
+			return {...state, loggedIn: true};
+		case LOGOUT:
+			return {...state, loggedIn: false};
 		default:
 			return state;
 	}
