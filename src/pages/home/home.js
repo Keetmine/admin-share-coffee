@@ -1,6 +1,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {Tab, TabContainer} from '../../ui/core/home';
+import Topics from "./topics";
 
 const mapStateToProps = state => ({
 	loggedIn: state.auth.loggedIn
@@ -26,9 +27,7 @@ class HomeDashboard extends React.Component {
 					<Tab onClick={() => this.openTab('Teams')} active={activeTab === 'Teams'}>Teams</Tab>
 				</TabContainer>
 				{activeTab === 'Topics' && (
-					<div>
-						<h2>Topics</h2>
-					</div>
+					<Topics/>
 				)}
 				{activeTab === 'Users' && (
 					<div>

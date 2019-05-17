@@ -1,4 +1,3 @@
-import auth from '../helpers/auth'
 
 export default {
 	formState: {
@@ -7,5 +6,5 @@ export default {
 	},
 	error: '',
 	currentlySending: false,
-	loggedIn: auth.loggedIn()
+	loggedIn: false
 };
