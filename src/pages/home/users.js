@@ -25,7 +25,7 @@ class Topics extends Component {
 
 
     getData() {
-        const requestUrl = "https://forge-development.herokuapp.com/api/events/"
+        const requestUrl = "https://forge-development.herokuapp.com/api/users/"
 
         fetch(requestUrl)
             .then(blob => blob.json())
@@ -40,14 +40,25 @@ class Topics extends Component {
     render() {
         const {events} = this.state;
         return (
-                events.map(event => (
-                    <div key={event.id}>
-                        <div><Link to={{pathname: `/topic/${event._id}`}}>{event.title}</Link></div>
-                        <div><span>Place: </span><span>{event.location}</span></div>
-                        <div><span>Time: </span><span>{event.event.nextDates}</span></div>
-                        <button>Generate pairs</button>
-                    </div>
-                ))
+            <table>
+                <thead>
+                <tr>
+                    <th>Username</th>
+                    <th>Team</th>
+                    <th>Registration Date</th>
+                </tr>
+                </thead>
+                <tbody>
+                {events.map(event => (
+                    <tr>
+                        <td>{event.username}</td>
+                        <td>team</td>
+                        <td>registration date</td>
+                        <button>click me</button>
+                    </tr>
+                ))}
+                </tbody>
+            </table>
         );
     }
 
