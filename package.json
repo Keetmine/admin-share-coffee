@@ -9,6 +9,7 @@
     "eject": "react-scripts eject"
   },
   "dependencies": {
+    "axios": "^0.18.0",
     "babel": "^6.5.2",
     "babel-core": "6.26.0",
     "babel-eslint": "^10.0.1",

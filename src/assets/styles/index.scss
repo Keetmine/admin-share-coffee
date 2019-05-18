@@ -1,6 +1,7 @@
 @import "components/form.scss";
 @import "components/containers.scss";
 @import "components/navbar.scss";
+@import "team.scss";
 
 html {
   height: 100vh;
@@ -13,6 +14,5 @@ body {
   height: calc(100% - 120px);
   font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
   background-color: #FAFAFA;
-
 }
 

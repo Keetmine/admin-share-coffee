@@ -18,6 +18,7 @@ class Navbar extends Component {
 
 	DoLogout() {
 		this.props.dispatch(logout());
+		localStorage.clear();
 	}
 
 

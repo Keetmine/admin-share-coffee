@@ -4,6 +4,7 @@ import {Tab, TabContainer} from '../../ui/core/home';
 import Topics from "./topics";
 import Users from "./users";
 
+import Teams from "./teams";
 
 const mapStateToProps = state => ({
     loggedIn: state.auth.loggedIn
@@ -35,9 +36,7 @@ class HomeDashboard extends React.Component {
                     <Users/>
                 )}
                 {activeTab === 'Teams' && (
-                    <div>
-                        <h2>Teams</h2>
-                    </div>
+                    <Teams />
                 )}
             </div>
         );

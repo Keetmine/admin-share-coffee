@@ -25,9 +25,14 @@ class Topics extends Component {
 
 
     getData() {
-        const requestUrl = "https://forge-development.herokuapp.com/api/events/"
+        const requestUrl = 'https://forge-development.herokuapp.com/api/events/';
+        const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7Il9pZCI6IjVjZGU4YjEwNDhlZjI3YTI1MWY2NWRkYyIsInRlbGVncmFtVXNlcklkIjo1NDE0MTk0MzEsImFkbWluIjp7ImlzQWRtaW4iOnRydWUsInBhc3N3b3JkIjoidGVzdCJ9fSwiaWF0IjoxNTU4MTc5Nzc4LCJleHAiOjE1NTgyNjYxNzh9.YESFpIbsN_-Hyu9Q0bo8mwhU_Ur9BbdbmudiJpLVea8'
 
-        fetch(requestUrl)
+        fetch(requestUrl, {
+            headers: {
+                Authorization: `Bearer ${token} `
+            },
+        })
             .then(blob => blob.json())
             .then(events => {
                 console.log(events);
@@ -44,7 +49,7 @@ class Topics extends Component {
                     <div key={event.id}>
                         <div><Link to={{pathname: `/topic/${event._id}`}}>{event.title}</Link></div>
                         <div><span>Place: </span><span>{event.location}</span></div>
-                        <div><span>Time: </span><span>{event.event.nextDates}</span></div>
+                        {/*<div><span>Time: </span><span>{event.event.nextDates}</span></div>*/}
                         <button>Generate pairs</button>
                     </div>
                 ))
