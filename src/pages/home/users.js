@@ -15,7 +15,8 @@ class Topics extends Component {
 
 
     state = {
-        users: []
+        users: [],
+        banned: false
     };
 
     componentDidMount() {
@@ -39,25 +40,34 @@ class Topics extends Component {
             });
     }
 
+    toggle = (banStatus) => {
+        this.setState({banned: !banStatus})
+    }
 
     render() {
-        const {users} = this.state;
+        const {users, banned} = this.state;
         return (
-            <table>
+            <table className={'user_block'}>
                 <thead>
                 <tr>
                     <th>Username</th>
                     <th>Team</th>
-                    <th>Registration Date</th>
+                    <th colSpan={2}>Registration Date</th>
                 </tr>
                 </thead>
                 <tbody>
                 {users.map(user => (
-                    <tr>
+                    <tr key={user.id}>
                         <td>{user.username}</td>
                         <td>team</td>
                         <td>registration date</td>
-                        <button>click me</button>
+                        <td>
+                            {banned ?
+                                <button onClick={() => this.toggle(banned)}>unban</button>
+                                :
+                                <button onClick={() => this.toggle(banned)}>ban</button>
+                            }
+                        </td>
                     </tr>
                 ))}
                 </tbody>

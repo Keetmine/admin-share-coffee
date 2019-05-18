@@ -1,0 +1,32 @@
+.user_block {
+  width: 100%;
+  & > thead {
+    & > tr {
+      & > th {
+        border-bottom: 1.3px solid #F0F0F0;
+        height: 44px;
+        padding: 5px;
+        text-align: left;
+        transition: all ease 0.1s;
+        &:hover {
+          color: #646464;
+          transition: all ease 0.1s;
+        }
+      }
+    }
+  }
+  & > tbody {
+    & > tr {
+      & > td {
+        border-bottom: 1.3px solid #F0F0F0;
+        max-width: 50px;
+        height: 44px;
+        padding: 5px;
+        text-align: left;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+    }
+  }
+}
