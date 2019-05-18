@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import {Link} from 'react-router-dom';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 
@@ -16,7 +15,7 @@ class Topics extends Component {
 
 
     state = {
-        events: []
+        users: []
     };
 
     componentDidMount() {
@@ -34,16 +33,15 @@ class Topics extends Component {
             },
         })
             .then(blob => blob.json())
-            .then(events => {
-                console.log(events);
-
-                this.setState({events: events});
+            .then(users => {
+                console.log(users);
+                this.setState({users: users});
             });
     }
 
 
     render() {
-        const {events} = this.state;
+        const {users} = this.state;
         return (
             <table>
                 <thead>
@@ -54,9 +52,9 @@ class Topics extends Component {
                 </tr>
                 </thead>
                 <tbody>
-                {events.map(event => (
+                {users.map(user => (
                     <tr>
-                        <td>{event.username}</td>
+                        <td>{user.username}</td>
                         <td>team</td>
                         <td>registration date</td>
                         <button>click me</button>
