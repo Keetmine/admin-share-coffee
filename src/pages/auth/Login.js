@@ -16,10 +16,6 @@ class Login extends Component {
         error: ''
     };
 
-    redirect = () => {
-        // this.props.history.push('/')
-    }
-
     login = (e) => {
         e.preventDefault();
         const requestUrl = `https://forge-development.herokuapp.com/login/admin`
@@ -28,7 +24,7 @@ class Login extends Component {
             username: this.state.username,
             password: md5(this.state.password)
         }
-        console.log(JSON.stringify(user))
+
         const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7Il9pZCI6IjVjZGU4YjEwNDhlZjI3YTI1MWY2NWRkYyIsInRlbGVncmFtVXNlcklkIjo1NDE0MTk0MzEsImFkbWluIjp7ImlzQWRtaW4iOnRydWUsInBhc3N3b3JkIjoidGVzdCJ9fSwiaWF0IjoxNTU4MTc5Nzc4LCJleHAiOjE1NTgyNjYxNzh9.YESFpIbsN_-Hyu9Q0bo8mwhU_Ur9BbdbmudiJpLVea8'
 
         fetch(requestUrl,
@@ -51,8 +47,10 @@ class Login extends Component {
                     this.setState({error: data.errors[0].msg})
                 }
                 if (data.token) {
+                    console.log(this.props.history)
                     localStorage.setItem('token', data.token)
-                    this.redirect()
+                    // this.props.update()
+                    this.props.setLogin(token != null)
                 }
 
             })

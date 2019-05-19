@@ -15,7 +15,6 @@ class Navbar extends Component {
 
 	componentDidMount() {
 		const token = localStorage.getItem('token');
-		console.log(token)
 		if (token !== null) {
 			this.setState({isLogin: true})
 		}
@@ -24,8 +23,7 @@ class Navbar extends Component {
 	DoLogout(e) {
 		e.preventDefault();
 		localStorage.clear();
-		this.setState({isLogin: false})
-		this.props.history.push('/')
+		this.props.setLogin(false)
 	}
 
 	render() {

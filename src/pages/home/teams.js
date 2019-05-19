@@ -1,8 +1,7 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
-import {loginRequest} from "../../actions";
-import ErrorMessage from "../auth/Login";
+import ErrorMessage from "../../components/ErrorMessage";
 
 const mapStateToProps = state => ({
     loggedIn: state.auth.loggedIn,
@@ -32,7 +31,7 @@ class Teams extends Component {
 
     getData() {
         const requestUrl = 'https://forge-development.herokuapp.com/api/departments/';
-        const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7Il9pZCI6IjVjZGU4YjEwNDhlZjI3YTI1MWY2NWRkYyIsInRlbGVncmFtVXNlcklkIjo1NDE0MTk0MzEsImFkbWluIjp7ImlzQWRtaW4iOnRydWUsInBhc3N3b3JkIjoidGVzdCJ9fSwiaWF0IjoxNTU4MTc5Nzc4LCJleHAiOjE1NTgyNjYxNzh9.YESFpIbsN_-Hyu9Q0bo8mwhU_Ur9BbdbmudiJpLVea8'
+        const token = localStorage.getItem('token')
 
         fetch(requestUrl, {
             headers: {
@@ -41,6 +40,9 @@ class Teams extends Component {
         })
             .then(blob => blob.json())
             .then(teams => {
+                if (teams.errors && teams.errors.length > 0) {
+                    this.setState({error: teams.errors[0].msg})
+                }
                 this.setState({teams: teams});
             });
     }
@@ -70,7 +72,7 @@ class Teams extends Component {
 
     adding = () => {
         const requestUrl = 'https://forge-development.herokuapp.com/api/departments/';
-        const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7Il9pZCI6IjVjZGU4YjEwNDhlZjI3YTI1MWY2NWRkYyIsInRlbGVncmFtVXNlcklkIjo1NDE0MTk0MzEsImFkbWluIjp7ImlzQWRtaW4iOnRydWUsInBhc3N3b3JkIjoidGVzdCJ9fSwiaWF0IjoxNTU4MTc5Nzc4LCJleHAiOjE1NTgyNjYxNzh9.YESFpIbsN_-Hyu9Q0bo8mwhU_Ur9BbdbmudiJpLVea8'
+        const token = localStorage.getItem('token')
         const department = {
             title: this.state.team,
             description: ''
@@ -110,22 +112,22 @@ class Teams extends Component {
         const {teams, deleteContent, isShowAdding, error, success} = this.state;
         return (
             <div>
-                {teams.map(team => (
-                <div key={team.id} className={'team_block'}>
-                    <span>{team.title}</span>
-                    <div className='toggle_delete'>
-                        {deleteContent !== team._id ?
-                            <img src={require('../../assets/img/close.svg')} alt=''
-                                 onClick={() => this.toggle(team._id)}/>
-                            :
-                            <div>
-                                Are you sure you want to delete?
-                                <span onClick={this.clear} style={{marginLeft: '10px'}}>Cancel</span>
-                                <button onClick={this.delete} style={{marginLeft: '10px'}}>Delete</button>
-                            </div>
-                        }
+                {teams && teams.length > 0 && teams.map(team => (
+                    <div key={team.id} className={'team_block'}>
+                        <span>{team.title}</span>
+                        <div className='toggle_delete'>
+                            {deleteContent !== team._id ?
+                                <img src={require('../../assets/img/close.svg')} alt=''
+                                     onClick={() => this.toggle(team._id)}/>
+                                :
+                                <div>
+                                    Are you sure you want to delete?
+                                    <span onClick={this.clear} style={{marginLeft: '10px'}}>Cancel</span>
+                                    <button onClick={this.delete} style={{marginLeft: '10px'}}>Delete</button>
+                                </div>
+                            }
+                        </div>
                     </div>
-                </div>
                 ))}
                 {!isShowAdding ?
                     <button onClick={this.toggleAdding}>Add team</button>
@@ -142,7 +144,6 @@ class Teams extends Component {
                     </div>
                 }
                 {error ? <ErrorMessage error={error}/> : null}
-                {/*{success ? <ErrorMessage success/> : null}*/}
 
             </div>
         );

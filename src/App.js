@@ -10,7 +10,6 @@ class App extends Component {
 	render() {
 		return (
 			<div className='wrapper'>
-				<Navbar />
 				<Switch>
 					<Route exact path='/' component={Home} />
 					<Route exact path='/register' component={Register} />

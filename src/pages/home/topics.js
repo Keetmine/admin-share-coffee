@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
 import PropTypes from 'prop-types';
+import ErrorMessage from "../../components/ErrorMessage";
 
 class Topics extends Component {
 
@@ -9,7 +10,8 @@ class Topics extends Component {
     }
 
     state = {
-        events: []
+        events: [],
+        error: ''
     };
 
     componentDidMount() {
@@ -19,7 +21,7 @@ class Topics extends Component {
 
     getData() {
         const requestUrl = 'https://forge-development.herokuapp.com/api/events/';
-        const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7Il9pZCI6IjVjZGU4YjEwNDhlZjI3YTI1MWY2NWRkYyIsInRlbGVncmFtVXNlcklkIjo1NDE0MTk0MzEsImFkbWluIjp7ImlzQWRtaW4iOnRydWUsInBhc3N3b3JkIjoidGVzdCJ9fSwiaWF0IjoxNTU4MTc5Nzc4LCJleHAiOjE1NTgyNjYxNzh9.YESFpIbsN_-Hyu9Q0bo8mwhU_Ur9BbdbmudiJpLVea8'
+        const token = localStorage.getItem('token')
 
         fetch(requestUrl, {
             headers: {
@@ -29,26 +31,32 @@ class Topics extends Component {
             .then(blob => blob.json())
             .then(events => {
                 console.log(events);
-
+                if (events.errors && events.errors.length > 0) {
+                    this.setState({error: events.errors[0].msg})
+                }
                 this.setState({events: events});
             });
     }
 
 
     render() {
-        const {events} = this.state;
+        const {events, error} = this.state;
         return (
-            events.map(event => (
-                <div key={event.id} className={'one-topic'}>
-                    <Link to={{pathname: `/topic/${event._id}`}} className={'title'}>{event.title}</Link>
-                    <div className={'subscribers'}>(0 Subscribers)</div>
-                    <span>Place: </span>
-                    <div>{event.address}</div>
-                    <span>Time:</span>
-                    <div>{event.options.times}</div>
-                    {/*<button>Generate pairs</button>*/}
-                </div>
-            ))
+            <div>
+                {events && events.length > 0 && events.map(event => (
+                    <div key={event.id} className={'one-topic'}>
+                        <Link to={{pathname: `/topic/${event._id}`}} className={'title'}>{event.title}</Link>
+                        <div className={'subscribers'}>(0 Subscribers)</div>
+                        <span>Place: </span>
+                        <div>{event.address}</div>
+                        <span>Time:</span>
+                        <div>{event.options.times}</div>
+                        {/*<button>Generate pairs</button>*/}
+                    </div>
+                ))}
+                {error ? <ErrorMessage error={error}/> : null}
+
+            </div>
         );
     }
 
