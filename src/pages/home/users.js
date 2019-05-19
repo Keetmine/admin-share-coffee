@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import ErrorMessage from "../../components/ErrorMessage";
 
 class Topics extends Component {
 
@@ -18,7 +17,7 @@ class Topics extends Component {
 
     getData() {
         const requestUrl = "https://forge-development.herokuapp.com/api/users/"
-        const token = localStorage.getItem('token')
+        const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7Il9pZCI6IjVjZGU4YjEwNDhlZjI3YTI1MWY2NWRkYyIsInRlbGVncmFtVXNlcklkIjo1NDE0MTk0MzEsImFkbWluIjp7ImlzQWRtaW4iOnRydWUsInBhc3N3b3JkIjoidGVzdCJ9fSwiaWF0IjoxNTU4MTc5Nzc4LCJleHAiOjE1NTgyNjYxNzh9.YESFpIbsN_-Hyu9Q0bo8mwhU_Ur9BbdbmudiJpLVea8'
 
         fetch(requestUrl, {
             headers: {
@@ -28,9 +27,6 @@ class Topics extends Component {
             .then(blob => blob.json())
             .then(users => {
                 console.log(users);
-                if (users.errors && users.errors.length > 0) {
-                    this.setState({error: users.errors[0].msg})
-                }
                 this.setState({users: users});
             });
     }
@@ -50,46 +46,36 @@ class Topics extends Component {
     }
 
     render() {
-        const {users, banned, activeFilter, up, error} = this.state;
+        const {users, banned, activeFilter, up} = this.state;
         return (
-            <div>
-                <table className={'user_block'}>
-                    <thead>
-                    <tr>
-                        <th className={`${activeFilter === 'Username' ? 'active' : ''} ${up === 'Username' ? 'up' : ''}`}
-                            onClick={() => this.filter('Username')}>Username
-                        </th>
-                        <th className={`${activeFilter === 'Team' ? 'active' : ''} ${up === 'Team' ? 'up' : ''}`}
-                            onClick={() => this.filter('Team')}>Team
-                        </th>
-                        <th className={`${activeFilter === 'Registration' ? 'active' : ''} ${up === 'Registration' ? 'up' : ''}`}
-                            onClick={() => this.filter('Registration')} colSpan={2}>Registration Date
-                        </th>
+            <table className={'user_block'}>
+                <thead>
+                <tr>
+                    <th className={`${activeFilter === 'Username' ? 'active': ''} ${up === 'Username' ? 'up': ''}`}
+                        onClick={() => this.filter('Username')}>Username</th>
+                    <th className={`${activeFilter === 'Team' ? 'active' : ''} ${up === 'Team' ? 'up' : ''}`}
+                        onClick={() => this.filter('Team')}>Team</th>
+                    <th className={`${activeFilter === 'Registration' ? 'active': ''} ${up === 'Registration' ? 'up' : ''}`}
+                        onClick={() => this.filter('Registration')} colSpan={2}>Registration Date</th>
+                </tr>
+                </thead>
+                <tbody>
+                {users.map(user => (
+                    <tr key={user.id}>
+                        <td>{user.username}</td>
+                        <td>team</td>
+                        <td>registration date</td>
+                        <td>
+                            {banned ?
+                                <button onClick={() => this.toggle(banned)}>unban</button>
+                                :
+                                <button onClick={() => this.toggle(banned)}>ban</button>
+                            }
+                        </td>
                     </tr>
-                    </thead>
-                    <tbody>
-                    {users && users.length > 0 ? users.map(user => (
-                            <tr key={user.id}>
-                                <td>{user.username}</td>
-                                <td>team</td>
-                                <td>registration date</td>
-                                <td>
-                                    {banned ?
-                                        <button onClick={() => this.toggle(banned)}>unban</button>
-                                        :
-                                        <button onClick={() => this.toggle(banned)}>ban</button>
-                                    }
-                                </td>
-                            </tr>
-                        )) :
-                        <tr>
-                            <td>Users is empty</td>
-                        </tr>}
-                    </tbody>
-                </table>
-                {error ? <ErrorMessage error={error}/> : null}
-            </div>
-
+                ))}
+                </tbody>
+            </table>
         );
     }
 
