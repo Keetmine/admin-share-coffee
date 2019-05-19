@@ -1,19 +1,12 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
 import PropTypes from 'prop-types';
-import {connect} from 'react-redux';
-
-const mapStateToProps = state => ({
-    loggedIn: state.auth.loggedIn,
-    currentlySending: state.auth.currentlySending
-});
 
 class Topics extends Component {
 
     constructor(props) {
         super(props);
     }
-
 
     state = {
         events: []
@@ -45,14 +38,17 @@ class Topics extends Component {
     render() {
         const {events} = this.state;
         return (
-                events.map(event => (
-                    <div key={event.id}>
-                        <div><Link to={{pathname: `/topic/${event._id}`}}>{event.title}</Link></div>
-                        <div><span>Place: </span><span>{event.location}</span></div>
-                        {/*<div><span>Time: </span><span>{event.event.nextDates}</span></div>*/}
-                        <button>Generate pairs</button>
-                    </div>
-                ))
+            events.map(event => (
+                <div key={event.id} className={'one-topic'}>
+                    <Link to={{pathname: `/topic/${event._id}`}} className={'title'}>{event.title}</Link>
+                    <div className={'subscribers'}>(0 Subscribers)</div>
+                    <span>Place: </span>
+                    <div>{event.address}</div>
+                    <span>Time:</span>
+                    <div>{event.options.times}</div>
+                    {/*<button>Generate pairs</button>*/}
+                </div>
+            ))
         );
     }
 
@@ -60,12 +56,10 @@ class Topics extends Component {
 }
 
 Topics.propTypes = {
-    loggedIn: PropTypes.bool,
-    currentlySending: PropTypes.bool,
     history: PropTypes.object,
     location: PropTypes.object,
     children: PropTypes.object,
     dispatch: PropTypes.func
 };
 
-export default connect(mapStateToProps)(Topics);
+export default (Topics);

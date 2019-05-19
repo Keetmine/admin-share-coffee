@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
+import {loginRequest} from "../../actions";
+import ErrorMessage from "../auth/Login";
 
 const mapStateToProps = state => ({
     loggedIn: state.auth.loggedIn,
@@ -17,7 +19,9 @@ class Teams extends Component {
         teams: [],
         deleteContent: '',
         isShowAdding: false,
-        team: ''
+        team: '',
+        error: '',
+        success: false
 
     };
 
@@ -55,18 +59,55 @@ class Teams extends Component {
         this.setState({deleteContent: ''})
     }
 
-    changeInput = (title, value) => {
-        this.setState({[title]: value});
+    changeInput = (value) => {
+        console.log(value)
+        this.setState({team: value});
     };
 
     toggleAdding = () => {
         this.setState({isShowAdding: !this.state.isShowAdding})
     }
 
+    adding = () => {
+        const requestUrl = 'https://forge-development.herokuapp.com/api/departments/';
+        const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7Il9pZCI6IjVjZGU4YjEwNDhlZjI3YTI1MWY2NWRkYyIsInRlbGVncmFtVXNlcklkIjo1NDE0MTk0MzEsImFkbWluIjp7ImlzQWRtaW4iOnRydWUsInBhc3N3b3JkIjoidGVzdCJ9fSwiaWF0IjoxNTU4MTc5Nzc4LCJleHAiOjE1NTgyNjYxNzh9.YESFpIbsN_-Hyu9Q0bo8mwhU_Ur9BbdbmudiJpLVea8'
+        const department = {
+            title: this.state.team,
+            description: ''
+        }
+        fetch(requestUrl,
+            {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${token} `
+                },
+                body: JSON.stringify(department)
+            }
+        )
+            .then(data => {
+                return data.json()
+            })
+            .then(data => {
+                console.log(data);
+                if (data.errors && data.errors.length > 0) {
+                    this.setState({error: data.errors[0].msg})
+                } else {
+                    this.toggleAdding()
+                    this.setState({success: true})
+                    this.getData()
+                }
+
+            })
+            .catch(err => {
+                this.setState({error: err.message})
+                console.error(err);
+            });
+    }
+
 
     render() {
-        const {teams, deleteContent, isShowAdding} = this.state;
-        console.log(deleteContent)
+        const {teams, deleteContent, isShowAdding, error, success} = this.state;
         return (
             <div>
                 {teams.map(team => (
@@ -92,14 +133,16 @@ class Teams extends Component {
                     <div>
                         <input
                             className="form__field-input"
-                            type="password"
-                            onChange={e => this.changeInput('team', e.target.value)}
-                            placeholder="password"
+                            type="text"
+                            onChange={e => this.changeInput(e.target.value)}
+                            placeholder="Department name"
                         />
-                        <button>Save</button>
+                        <button onClick={this.adding}>Save</button>
                         <button onClick={this.toggleAdding}>Cancel</button>
                     </div>
                 }
+                {error ? <ErrorMessage error={error}/> : null}
+                {/*{success ? <ErrorMessage success/> : null}*/}
 
             </div>
         );

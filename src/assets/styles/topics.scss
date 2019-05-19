@@ -1,0 +1,50 @@
+.one-topic {
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+
+  display: grid;
+  border-bottom: 1.3px solid #e1e1e1;
+  padding: 20px 0;
+  grid-template-columns: 1fr 2fr;
+  grid-template-rows: auto;
+  text-align: left;
+
+  & > .title {
+    color: black;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 18px;
+    margin-bottom: 15px;
+    &:hover {
+      color: #646464;
+      transition: all ease 0.1s;
+    }
+  }
+  & > .subscribers {
+    font-family: 'Roboto Regular', 'Roboto', sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 16px;
+    color: #C8C8C8;
+  }
+  & > span {
+    font-family: 'Roboto Regular', 'Roboto', sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 16px;
+    color: #C8C8C8;
+    margin-left: 20px;
+    margin-bottom: 5px;
+  }
+  & > div {
+    font-family: 'Roboto Regular', 'Roboto', sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 16px;
+    color: #323232;
+    max-width: 250px;
+    margin-bottom: 5px;
+  }
+
+}

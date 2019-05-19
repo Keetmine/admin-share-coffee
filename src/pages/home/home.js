@@ -1,14 +1,8 @@
 import React from 'react';
-import {connect} from 'react-redux';
 import {Tab, TabContainer} from '../../ui/core/home';
 import Topics from "./topics";
 import Users from "./users";
-
 import Teams from "./teams";
-
-const mapStateToProps = state => ({
-    loggedIn: state.auth.loggedIn
-});
 
 class HomeDashboard extends React.Component {
     state = {
@@ -43,4 +37,4 @@ class HomeDashboard extends React.Component {
     }
 }
 
-export default connect(mapStateToProps)(HomeDashboard);
+export default (HomeDashboard);

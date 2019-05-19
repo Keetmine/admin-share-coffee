@@ -9,12 +9,22 @@ const mapStateToProps = state => ({
 });
 
 class Home extends React.Component {
+	state = {
+		isLogin: false
+	}
+
+	componentDidMount() {
+		const token = localStorage.getItem('token');
+		if (token !== null) {
+			this.setState({isLogin: true})
+		}
+	}
 
 	render() {
 		return (
-			<div className='login_container' style={{    width: '100%'}}>
+			<div className='login_container' style={{width: '100%'}}>
 				<h1>Admin panel</h1>
-				{!this.props.loggedIn ?
+				{!this.state.isLogin ?
 					<Login/>
 					:
 					<HomeDashboard />

@@ -1,22 +1,13 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import {connect} from 'react-redux';
-
-const mapStateToProps = state => ({
-    loggedIn: state.auth.loggedIn,
-    currentlySending: state.auth.currentlySending
-});
 
 class Topics extends Component {
 
-    constructor(props) {
-        super(props);
-    }
-
-
     state = {
         users: [],
-        banned: false
+        banned: false,
+        activeFilter: '',
+        up: ''
     };
 
     componentDidMount() {
@@ -44,15 +35,28 @@ class Topics extends Component {
         this.setState({banned: !banStatus})
     }
 
+    filter = (filter) => {
+        this.setState({activeFilter: filter})
+        if (this.state.activeFilter === filter) {
+            this.setState({up: filter})
+        }
+        if (this.state.up === filter) {
+            this.setState({up: ''})
+        }
+    }
+
     render() {
-        const {users, banned} = this.state;
+        const {users, banned, activeFilter, up} = this.state;
         return (
             <table className={'user_block'}>
                 <thead>
                 <tr>
-                    <th>Username</th>
-                    <th>Team</th>
-                    <th colSpan={2}>Registration Date</th>
+                    <th className={`${activeFilter === 'Username' ? 'active': ''} ${up === 'Username' ? 'up': ''}`}
+                        onClick={() => this.filter('Username')}>Username</th>
+                    <th className={`${activeFilter === 'Team' ? 'active' : ''} ${up === 'Team' ? 'up' : ''}`}
+                        onClick={() => this.filter('Team')}>Team</th>
+                    <th className={`${activeFilter === 'Registration' ? 'active': ''} ${up === 'Registration' ? 'up' : ''}`}
+                        onClick={() => this.filter('Registration')} colSpan={2}>Registration Date</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -79,12 +83,10 @@ class Topics extends Component {
 }
 
 Topics.propTypes = {
-    loggedIn: PropTypes.bool,
-    currentlySending: PropTypes.bool,
     history: PropTypes.object,
     location: PropTypes.object,
     children: PropTypes.object,
     dispatch: PropTypes.func
 };
 
-export default connect(mapStateToProps)(Topics);
+export default (Topics);

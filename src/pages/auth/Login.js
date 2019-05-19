@@ -1,17 +1,9 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-
+import md5 from 'js-md5';
 import {connect} from 'react-redux';
 
-import * as axios from 'axios';
 import ErrorMessage from '../../components/ErrorMessage';
-import {loginRequest} from "../../actions";
-
-const mapStateToProps = state => ({
-    username: state.auth.username,
-    password: state.auth.password,
-    error: state.auth.error
-});
 
 class Login extends Component {
     constructor(props) {
@@ -24,13 +16,17 @@ class Login extends Component {
         error: ''
     };
 
+    redirect = () => {
+        // this.props.history.push('/')
+    }
+
     login = (e) => {
         e.preventDefault();
         const requestUrl = `https://forge-development.herokuapp.com/login/admin`
 
         const user = {
             username: this.state.username,
-            password: this.state.password
+            password: md5(this.state.password)
         }
         console.log(JSON.stringify(user))
         const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7Il9pZCI6IjVjZGU4YjEwNDhlZjI3YTI1MWY2NWRkYyIsInRlbGVncmFtVXNlcklkIjo1NDE0MTk0MzEsImFkbWluIjp7ImlzQWRtaW4iOnRydWUsInBhc3N3b3JkIjoidGVzdCJ9fSwiaWF0IjoxNTU4MTc5Nzc4LCJleHAiOjE1NTgyNjYxNzh9.YESFpIbsN_-Hyu9Q0bo8mwhU_Ur9BbdbmudiJpLVea8'
@@ -56,7 +52,7 @@ class Login extends Component {
                 }
                 if (data.token) {
                     localStorage.setItem('token', data.token)
-                    this.props.dispatch(loginRequest({'name': 'name', 'password': 'name'}));
+                    this.redirect()
                 }
 
             })
@@ -102,12 +98,7 @@ class Login extends Component {
 }
 
 Login.propTypes = {
-    password: PropTypes.string,
-    error: PropTypes.string,
-    username: PropTypes.string,
-    data: PropTypes.object,
     history: PropTypes.object,
-    dispatch: PropTypes.func
 };
 
-export default connect(mapStateToProps)(Login);
+export default (Login);
