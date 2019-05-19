@@ -11,7 +11,8 @@ class Topics extends Component {
         userLength: 0,
         banned: false,
         activeFilter: '',
-        up: ''
+        up: '',
+        userId: ''
     };
 
     componentDidMount() {
@@ -43,8 +44,41 @@ class Topics extends Component {
             });
     }
 
-    toggle = (banStatus) => {
-        this.setState({banned: !banStatus})
+    toggle = (user) => {
+        // this.state.userId === '' ? this.setState({userId: id}) : this.setState({userId: ''});
+        const requestUrl =  `https://forge-development.herokuapp.com/api/users/ban/${user._id}`;
+        const token = localStorage.getItem('token')
+        const status = {
+            "ban": {
+                "status": !user.banned.status
+            }
+        }
+        fetch(requestUrl,
+            {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${token} `
+                },
+                body: JSON.stringify(status)
+            }
+        )
+            .then(data => {
+                return data.json()
+            })
+            .then(data => {
+                console.log(data);
+                if (data.errors && data.errors.length > 0) {
+                    this.setState({error: data.errors[0].msg})
+                } else {
+                    this.getData()
+                }
+
+            })
+            .catch(err => {
+                this.setState({error: err.message})
+                console.error(err);
+            });
     }
 
     pagination(pageSize, currentPage) {
@@ -63,10 +97,10 @@ class Topics extends Component {
         if (this.state.up === filter) {
             this.setState({up: ''})
         }
-    }
+    };
 
     render() {
-        const {users, banned, activeFilter, up, error, userLength} = this.state;
+        const {users, activeFilter, up, error, userLength} = this.state;
         return (
             <div>
                 {users && users.length > 0 ?
@@ -87,16 +121,12 @@ class Topics extends Component {
                             </thead>
                             <tbody>
                             {users.map(user => (
-                                <tr key={user._id}>
+                              <tr key={user.id} className={`${user.banned.status ? 'bannedUser' : ''}`}>
                                     <td>{user.username}</td>
                                     <td>team</td>
                                     <td>registration date</td>
                                     <td>
-                                        {banned ?
-                                            <button onClick={() => this.toggle(banned)}>unban</button>
-                                            :
-                                            <button onClick={() => this.toggle(banned)}>ban</button>
-                                        }
+                                        <button onClick={() => this.toggle(user)}>{!user.banned.status ? 'ban' : 'unban'}</button>
                                     </td>
                                 </tr>
                             ))}
@@ -113,7 +143,6 @@ class Topics extends Component {
 
         );
     }
-
 
 }
 
