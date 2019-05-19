@@ -44,7 +44,7 @@ class Topics extends Component {
         return (
             <div>
                 {events && events.length > 0 && events.map(event => (
-                    <div key={event.id} className={'one-topic'}>
+                    <div key={event._id} className={'one-topic'}>
                         <Link to={{pathname: `/topic/${event._id}`}} className={'title'}>{event.title}</Link>
                         <div className={'subscribers'}>(0 Subscribers)</div>
                         <span>Place: </span>

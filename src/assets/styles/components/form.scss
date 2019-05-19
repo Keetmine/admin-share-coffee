@@ -1,21 +1,3 @@
-.form__field-wrapper {
-  width: 100%;
-  position: relative;
-  padding-top: 1.75em;
-  border-top: 1px solid #EDEDED;
-  border-bottom: 1px solid #EDEDED;
-  background-color: #fff;
-}
-
-.form__field-wrapper + .form__field-wrapper {
-  border-top: none;
-}
-
-.form__field-input:focus {
-  background-color: #EDEDED;
-  color: #333;
-}
-
 
 .form__field-input {
   position: relative;
@@ -28,6 +10,10 @@
   outline: 0;
   background: transparent;
   margin-top: 10px;
+  &:focus {
+    background-color: #EDEDED;
+    color: #333;
+  }
 }
 
 .form__submit-btn-wrapper {
@@ -57,7 +43,7 @@
 .form__error-wrapper {
   justify-content: center;
   max-width: calc(100% - 2em);
-  margin: 0 auto 1em;
+  margin: 20px auto 1em;
 }
 
 .form__error {

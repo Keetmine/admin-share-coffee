@@ -19,7 +19,6 @@ class Home extends React.Component {
 		if (token !== null) {
 			this.setState({isLogin: true})
 		}
-
 	}
 
 	setLogin = (state) => {
@@ -34,7 +33,7 @@ class Home extends React.Component {
 	render() {
 		return (
 			<div className='login_container' style={{width: '100%'}}>
-				<Navbar setLogin={this.setLogin}/>
+				<Navbar setLogin={this.setLogin} isLogin={this.state.isLogin}/>
 				<h1>Admin panel</h1>
 				{!this.state.isLogin ?
 					<Login history={this.props.history}

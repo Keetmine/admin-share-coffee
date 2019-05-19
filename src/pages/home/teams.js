@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import ErrorMessage from "../../components/ErrorMessage";
+import requests from "../../helpers/requests";
 
 const mapStateToProps = state => ({
     loggedIn: state.auth.loggedIn,
@@ -31,19 +32,13 @@ class Teams extends Component {
 
     getData() {
         const requestUrl = 'https://forge-development.herokuapp.com/api/departments/';
-        const token = localStorage.getItem('token')
 
-        fetch(requestUrl, {
-            headers: {
-                Authorization: `Bearer ${token} `
-            },
-        })
-            .then(blob => blob.json())
-            .then(teams => {
-                if (teams.errors && teams.errors.length > 0) {
-                    this.setState({error: teams.errors[0].msg})
-                }
-                this.setState({teams: teams});
+        requests.get(requestUrl)
+            .then(data => {
+                this.setState({
+                    teams: data.object,
+                    error: data.message
+                });
             });
     }
 
@@ -58,11 +53,10 @@ class Teams extends Component {
 
     delete = () => {
         console.log('delete')
-        this.setState({deleteContent: ''})
+        this.clear()
     }
 
     changeInput = (value) => {
-        console.log(value)
         this.setState({team: value});
     };
 
@@ -111,41 +105,41 @@ class Teams extends Component {
     render() {
         const {teams, deleteContent, isShowAdding, error, success} = this.state;
         return (
-            <div>
-                {teams && teams.length > 0 && teams.map(team => (
-                    <div key={team.id} className={'team_block'}>
-                        <span>{team.title}</span>
-                        <div className='toggle_delete'>
-                            {deleteContent !== team._id ?
-                                <img src={require('../../assets/img/close.svg')} alt=''
-                                     onClick={() => this.toggle(team._id)}/>
-                                :
-                                <div>
-                                    Are you sure you want to delete?
-                                    <span onClick={this.clear} style={{marginLeft: '10px'}}>Cancel</span>
-                                    <button onClick={this.delete} style={{marginLeft: '10px'}}>Delete</button>
-                                </div>
-                            }
+            error ? <ErrorMessage error={error}/> :
+                <div>
+                    {teams && teams.length > 0 && teams.map(team => (
+                        <div key={team._id} className={'team_block'}>
+                            <span>{team.title}</span>
+                            <div className='toggle_delete'>
+                                {deleteContent !== team._id ?
+                                    <img src={require('../../assets/img/close.svg')} alt=''
+                                         onClick={() => this.toggle(team._id)}/>
+                                    :
+                                    <div>
+                                        Are you sure you want to delete?
+                                        <span onClick={this.clear} style={{marginLeft: '10px'}}>Cancel</span>
+                                        <button onClick={this.delete} style={{marginLeft: '10px'}}>Delete</button>
+                                    </div>
+                                }
+                            </div>
                         </div>
-                    </div>
-                ))}
-                {!isShowAdding ?
-                    <button onClick={this.toggleAdding}>Add team</button>
-                    :
-                    <div>
-                        <input
-                            className="form__field-input"
-                            type="text"
-                            onChange={e => this.changeInput(e.target.value)}
-                            placeholder="Department name"
-                        />
-                        <button onClick={this.adding}>Save</button>
-                        <button onClick={this.toggleAdding}>Cancel</button>
-                    </div>
-                }
-                {error ? <ErrorMessage error={error}/> : null}
+                    ))}
+                    {!isShowAdding ?
+                        <button onClick={this.toggleAdding}>Add team</button>
+                        :
+                        <div>
+                            <input
+                                className="form__field-input"
+                                type="text"
+                                onChange={e => this.changeInput(e.target.value)}
+                                placeholder="Department name"
+                            />
+                            <button onClick={this.adding}>Save</button>
+                            <button onClick={this.toggleAdding}>Cancel</button>
+                        </div>
+                    }
+                </div>
 
-            </div>
         );
     }
 
