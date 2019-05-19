@@ -8,28 +8,9 @@
         padding: 5px;
         text-align: left;
         transition: all ease 0.1s;
-        cursor: pointer;
         &:hover {
           color: #646464;
           transition: all ease 0.1s;
-        }
-      }
-      & > .active {
-        color: #0064FF;
-        &:hover {
-          color: #288eff;
-        }
-        &::after {
-          content: '->';
-          position: absolute;
-          margin-left: 10px;
-        }
-      }
-      & >  .up {
-        &::after {
-          content: '<-';
-          position: absolute;
-          margin-left: 10px;
         }
       }
     }
@@ -48,4 +29,7 @@
       }
     }
   }
+}
+.bannedUser {
+  color: #a1a1a1;
 }
