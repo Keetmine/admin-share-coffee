@@ -12,7 +12,8 @@ class Topics extends Component {
         banned: false,
         activeFilter: '',
         up: '',
-        userId: ''
+        userId: '',
+        curPage: 1
     };
 
     componentDidMount() {
@@ -40,7 +41,7 @@ class Topics extends Component {
                     unsortedUser: users,
                     userLength: users.length
                 });
-                this.pagination(10, 1)
+                this.pagination(10, this.state.curPage)
             });
     }
 
@@ -84,7 +85,10 @@ class Topics extends Component {
     pagination(pageSize, currentPage) {
         const data = this.state.unsortedUser;
         const upperLimit = currentPage * pageSize;
-        this.setState({users: data.slice((upperLimit - pageSize), upperLimit)})
+        this.setState({
+            users: data.slice((upperLimit - pageSize), upperLimit),
+            curPage: currentPage
+        })
     }
 
     filter = (filter) => {
