@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import ErrorMessage from "../../components/ErrorMessage";
 import Pagination from "../../components/Pagination";
+import {Button, ButtonText} from "../../ui/components/button";
 
 class Topics extends Component {
 
@@ -139,8 +140,12 @@ class Topics extends Component {
                                     <td>{this.timestamp(user.created)}</td>
                                     {!user.admin.isAdmin ?
                                         <td>
-                                            <button
-                                                onClick={() => this.toggle(user)}>{!user.banned.status ? 'ban' : 'unban'}</button>
+                                            {!user.banned.status ?
+                                                <ButtonText onClick={() => this.toggle(user)}>Ban User</ButtonText>
+                                                :
+                                                <Button onClick={() => this.toggle(user)}>Unban</Button>
+
+                                            }
                                         </td>
                                         :
                                         <td>ADMIN</td>

@@ -4,6 +4,7 @@ import styled from 'styled-components';
 export const TabContainer = styled.div`
 	display: flex;
 	border-top: 1px solid #e6e6e6;
+	margin-bottom: 20px;
 `;
 
 export const Tab = styled.div`
