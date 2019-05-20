@@ -86,7 +86,6 @@ class requests {
             console.log(err);
 
             if (err.message === 'Network request failed') result.message = 'Internet connection error';
-
             if (result.message === null) result.message = 'Something went wrong';
         }
         return result;

@@ -88,6 +88,15 @@ class Topics extends Component {
             });
     }
 
+    generatePairs (id) {
+        const requestUrl = `https://forge-development.herokuapp.com/api/randomizer/${id}`;
+
+        requests.post(requestUrl)
+            .then(data => {
+                console.log(data)
+            });
+    }
+
 
     render() {
         const {events, error} = this.state;
@@ -105,7 +114,7 @@ class Topics extends Component {
                         <div>{event.address}</div>
                         <span>Time:</span>
                         <div>{event.options.times}</div>
-                        {/*<button>Generate pairs</button>*/}
+                        <button onClick={() => this.generatePairs(event._id)}>Generate pairs</button>
                     </div>
                 ))}
                 {error ? <ErrorMessage error={error}/> : null}
