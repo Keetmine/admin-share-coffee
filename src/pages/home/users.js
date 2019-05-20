@@ -121,7 +121,7 @@ class Topics extends Component {
                             </thead>
                             <tbody>
                             {users.map(user => (
-                              <tr key={user.id} className={`${user.banned.status ? 'bannedUser' : ''}`}>
+                              <tr key={user._id} className={`${user.banned.status ? 'bannedUser' : ''}`}>
                                     <td>{user.username}</td>
                                     <td>team</td>
                                     <td>registration date</td>

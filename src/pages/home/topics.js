@@ -3,45 +3,30 @@ import {Link} from 'react-router-dom';
 import PropTypes from 'prop-types';
 import ErrorMessage from "../../components/ErrorMessage";
 import {Dropdown, DropdownContent, DropdownItem} from "../../ui/components/dropdown";
+import requests from "../../helpers/requests";
 
-class Topics extends Component {
 
-    constructor(props) {
-        super(props);
-    }
+class TopicDropdown extends Component {
 
     state = {
-        events: [],
-        error: '',
-        subscribers: [
-            'First',
-            'Second',
-            'Third'
-        ],
-        openSubscribers: ''
-    };
-
-    componentDidMount() {
-        this.getData();
+        subscribers: [],
+        openSubscribers: '',
+        error: ''
     }
 
+    componentDidMount() {
+        this.getSubscribers(this.props.id);
+    }
 
-    getData() {
-        const requestUrl = 'https://forge-development.herokuapp.com/api/events/';
-        const token = localStorage.getItem('token')
+    getSubscribers = (id) => {
+        const requestUrl = `https://forge-development.herokuapp.com/api/users/?events.eventId=${id}`;
 
-        fetch(requestUrl, {
-            headers: {
-                Authorization: `Bearer ${token} `
-            },
-        })
-            .then(blob => blob.json())
-            .then(events => {
-                console.log(events);
-                if (events.errors && events.errors.length > 0) {
-                    this.setState({error: events.errors[0].msg})
-                }
-                this.setState({events: events});
+        requests.get(requestUrl)
+            .then(data => {
+                this.setState({
+                    subscribers: data.object,
+                    error: data.message
+                })
             });
     }
 
@@ -55,7 +40,57 @@ class Topics extends Component {
 
 
     render() {
-        const {events, error, subscribers, openSubscribers} = this.state;
+        const {subscribers, openSubscribers} = this.state;
+        const {id} = this.props;
+
+        return (
+            <Dropdown length={subscribers.length}
+                      onClick={() => subscribers.length > 0 && this.openSubscribers(id)}
+                      open={openSubscribers === id}>
+                {subscribers.length > 0 ? `Subscribers (${subscribers.length})` : `(0 Subscribers)`}
+                <DropdownContent open={openSubscribers === id}>
+                    {subscribers.map(subscriber => (
+                        <DropdownItem key={subscriber._id}>{subscriber.firstName} {subscriber.lastName}</DropdownItem>
+                    ))}
+                </DropdownContent>
+            </Dropdown>
+        )
+
+    }
+
+}
+
+
+class Topics extends Component {
+
+    constructor(props) {
+        super(props);
+    }
+
+    state = {
+        events: [],
+        error: '',
+    };
+
+    componentDidMount() {
+        this.getData();
+    }
+
+    getData() {
+        const requestUrl = 'https://forge-development.herokuapp.com/api/events/';
+
+        requests.get(requestUrl)
+            .then(data => {
+                this.setState({
+                    events: data.object,
+                    error: data.message
+                })
+            });
+    }
+
+
+    render() {
+        const {events, error} = this.state;
         return (
             <div>
                 {events && events.length > 0 && events.map(event => (
@@ -64,16 +99,8 @@ class Topics extends Component {
                             <span className={`event-status ${event.active ? 'active' : ''}`}/>
                             {event.title}
                         </Link>
-                        <Dropdown length={subscribers.length}
-                                  onClick={() => subscribers.length > 0 && this.openSubscribers(event._id)}
-                                  open={openSubscribers === event._id}>
-                            {subscribers.length > 0 ? `Subscribers (${subscribers.length})` : `(0 Subscribers)`}
-                            <DropdownContent open={openSubscribers === event._id}>
-                                {subscribers.map(subscriber => (
-                                    <DropdownItem>{subscriber}</DropdownItem>
-                                ))}
-                            </DropdownContent>
-                        </Dropdown>
+
+                        <TopicDropdown id={event._id}/>
                         <span>Place: </span>
                         <div>{event.address}</div>
                         <span>Time:</span>
