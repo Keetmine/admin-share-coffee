@@ -91,6 +91,14 @@ class Topics extends Component {
         })
     }
 
+    timestamp = (createdTime) => {
+        let date = new Date(createdTime);
+        let years = date.getFullYear();
+        let months = "0" + (date.getMonth() + 1);
+        let days = "0" + date.getDate();
+        return (days.substr(-2) + '.' + months.substr(-2) + '.' + years);
+    }
+
     filter = (filter) => {
         this.setState({activeFilter: filter})
         if (this.state.activeFilter === filter) {
@@ -128,7 +136,7 @@ class Topics extends Component {
                                 <tr key={user._id} className={`${user.banned.status ? 'bannedUser' : user.admin.isAdmin ? 'adminUser': ''}`}>
                                     <td>{user.username}</td>
                                     <td>team</td>
-                                    <td>registration date</td>
+                                    <td>{this.timestamp(user.created)}</td>
                                     {!user.admin.isAdmin ?
                                         <td>
                                             <button
