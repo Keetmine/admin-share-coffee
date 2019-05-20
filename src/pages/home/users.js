@@ -46,7 +46,7 @@ class Topics extends Component {
 
     toggle = (user) => {
         // this.state.userId === '' ? this.setState({userId: id}) : this.setState({userId: ''});
-        const requestUrl =  `https://forge-development.herokuapp.com/api/users/ban/${user._id}`;
+        const requestUrl = `https://forge-development.herokuapp.com/api/users/ban/${user._id}`;
         const token = localStorage.getItem('token')
         const status = {
             "ban": {
@@ -121,13 +121,18 @@ class Topics extends Component {
                             </thead>
                             <tbody>
                             {users.map(user => (
-                              <tr key={user._id} className={`${user.banned.status ? 'bannedUser' : ''}`}>
+                                <tr key={user._id} className={`${user.banned.status ? 'bannedUser' : user.admin.isAdmin ? 'adminUser': ''}`}>
                                     <td>{user.username}</td>
                                     <td>team</td>
                                     <td>registration date</td>
-                                    <td>
-                                        <button onClick={() => this.toggle(user)}>{!user.banned.status ? 'ban' : 'unban'}</button>
-                                    </td>
+                                    {!user.admin.isAdmin ?
+                                        <td>
+                                            <button
+                                                onClick={() => this.toggle(user)}>{!user.banned.status ? 'ban' : 'unban'}</button>
+                                        </td>
+                                        :
+                                        <td>ADMIN</td>
+                                    }
                                 </tr>
                             ))}
                             </tbody>
