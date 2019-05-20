@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import ErrorMessage from "../../components/ErrorMessage";
 import {Dropdown, DropdownContent, DropdownItem} from "../../ui/components/dropdown";
 import requests from "../../helpers/requests";
+import {Button} from "../../ui/components/button";
 
 
 class TopicDropdown extends Component {
@@ -114,7 +115,7 @@ class Topics extends Component {
                         <div>{event.address}</div>
                         <span>Time:</span>
                         <div>{event.options.times}</div>
-                        <button onClick={() => this.generatePairs(event._id)}>Generate pairs</button>
+                        <Button onClick={() => this.generatePairs(event._id)}>pairs</Button>
                     </div>
                 ))}
                 {error ? <ErrorMessage error={error}/> : null}

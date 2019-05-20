@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import ErrorMessage from "../../components/ErrorMessage";
 import requests from "../../helpers/requests";
+import {Button, ButtonText} from "../../ui/components/button";
 
 const mapStateToProps = state => ({
     loggedIn: state.auth.loggedIn,
@@ -106,7 +107,7 @@ class Teams extends Component {
         const {teams, deleteContent, isShowAdding, error, success} = this.state;
         return (
             error ? <ErrorMessage error={error}/> :
-                <div>
+                <div style={{textAlign: 'left'}}>
                     {teams && teams.length > 0 && teams.map(team => (
                         <div key={team._id} className={'team_block'}>
                             <span>{team.title}</span>
@@ -125,7 +126,7 @@ class Teams extends Component {
                         </div>
                     ))}
                     {!isShowAdding ?
-                        <button onClick={this.toggleAdding}>Add team</button>
+                        <Button onClick={this.toggleAdding} style={{marginTop: '10px'}} >Add team</Button>
                         :
                         <div>
                             <input
@@ -134,8 +135,8 @@ class Teams extends Component {
                                 onChange={e => this.changeInput(e.target.value)}
                                 placeholder="Department name"
                             />
-                            <button onClick={this.adding}>Save</button>
-                            <button onClick={this.toggleAdding}>Cancel</button>
+                            <Button onClick={this.adding} style={{marginRight: '10px'}}>Save</Button>
+                            <ButtonText onClick={this.toggleAdding}>Cancel</ButtonText>
                         </div>
                     }
                 </div>
