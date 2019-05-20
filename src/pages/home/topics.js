@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
 import PropTypes from 'prop-types';
 import ErrorMessage from "../../components/ErrorMessage";
+import {Dropdown, DropdownContent, DropdownItem} from "../../ui/components/dropdown";
 
 class Topics extends Component {
 
@@ -11,7 +12,13 @@ class Topics extends Component {
 
     state = {
         events: [],
-        error: ''
+        error: '',
+        subscribers: [
+            'First',
+            'Second',
+            'Third'
+        ],
+        openSubscribers: ''
     };
 
     componentDidMount() {
@@ -38,15 +45,32 @@ class Topics extends Component {
             });
     }
 
+    openSubscribers = (id) => {
+        if (this.state.openSubscribers === id) {
+            this.setState({openSubscribers: ''})
+        } else {
+            this.setState({openSubscribers: id})
+        }
+    }
+
 
     render() {
-        const {events, error} = this.state;
+        const {events, error, subscribers, openSubscribers} = this.state;
         return (
             <div>
                 {events && events.length > 0 && events.map(event => (
                     <div key={event._id} className={'one-topic'}>
                         <Link to={{pathname: `/topic/${event._id}`}} className={'title'}>{event.title}</Link>
-                        <div className={'subscribers'}>(0 Subscribers)</div>
+                        <Dropdown length={subscribers.length}
+                                  onClick={() => subscribers.length > 0 && this.openSubscribers(event._id)}
+                                  open={openSubscribers === event._id}>
+                            {subscribers.length > 0 ? `Subscribers (${subscribers.length})` : `(0 Subscribers)`}
+                            <DropdownContent open={openSubscribers === event._id}>
+                                {subscribers.map(subscriber => (
+                                    <DropdownItem>{subscriber}</DropdownItem>
+                                ))}
+                            </DropdownContent>
+                        </Dropdown>
                         <span>Place: </span>
                         <div>{event.address}</div>
                         <span>Time:</span>
