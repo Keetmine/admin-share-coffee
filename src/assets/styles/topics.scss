@@ -16,9 +16,22 @@
     font-weight: 600;
     font-size: 18px;
     margin-bottom: 15px;
+    display: flex;
+    align-items: center;
     &:hover {
       color: #646464;
       transition: all ease 0.1s;
+    }
+    & > .event-status {
+      width: 6px;
+      height: 6px;
+      border-radius: 100%;
+      background: red;
+      display: inline-block;
+      margin-right: 5px;
+    }
+    & > .active {
+      background: green;
     }
   }
   & > .subscribers {
@@ -46,5 +59,4 @@
     max-width: 250px;
     margin-bottom: 5px;
   }
-
 }

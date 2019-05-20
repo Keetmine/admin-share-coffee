@@ -60,7 +60,10 @@ class Topics extends Component {
             <div>
                 {events && events.length > 0 && events.map(event => (
                     <div key={event._id} className={'one-topic'}>
-                        <Link to={{pathname: `/topic/${event._id}`}} className={'title'}>{event.title}</Link>
+                        <Link to={{pathname: `/topic/${event._id}`}} className={'title'}>
+                            <span className={`event-status ${event.active ? 'active' : ''}`}/>
+                            {event.title}
+                        </Link>
                         <Dropdown length={subscribers.length}
                                   onClick={() => subscribers.length > 0 && this.openSubscribers(event._id)}
                                   open={openSubscribers === event._id}>
