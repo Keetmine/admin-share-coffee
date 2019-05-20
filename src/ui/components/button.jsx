@@ -29,6 +29,7 @@ export const ButtonText = styled.span`
     font-size: 16px;
     color: #FF0032;
     text-align: center;
+    cursor: pointer;
     &:hover {
         color: #ff476b;
     }
