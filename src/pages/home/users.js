@@ -1,8 +1,11 @@
 import React, {Component} from 'react';
+import {Link} from 'react-router-dom';
 import PropTypes from 'prop-types';
 import ErrorMessage from "../../components/ErrorMessage";
 import Pagination from "../../components/Pagination";
 import {Button, ButtonText} from "../../ui/components/button";
+import UserPage from "./userPage"
+import Login from '../auth/Login'
 
 class Topics extends Component {
 
@@ -47,7 +50,6 @@ class Topics extends Component {
     }
 
     toggle = (user) => {
-        // this.state.userId === '' ? this.setState({userId: id}) : this.setState({userId: ''});
         const requestUrl = `https://forge-development.herokuapp.com/api/users/ban/${user._id}`;
         const token = localStorage.getItem('token')
         const status = {
@@ -134,8 +136,13 @@ class Topics extends Component {
                             </thead>
                             <tbody>
                             {users.map(user => (
-                                <tr key={user._id} className={`${user.banned.status ? 'bannedUser' : user.admin.isAdmin ? 'adminUser': ''}`}>
-                                    <td>{user.username}</td>
+                                <tr key={user._id}
+                                    className={`${user.banned.status ? 'bannedUser' : user.admin.isAdmin ? 'adminUser' : ''}`}>
+                                    <td>
+                                        <Link to={{pathname: `/user/${user._id}`}} className={'title'}>
+                                            <span className={'username'}>{user.username}</span>
+                                        </Link>
+                                    </td>
                                     <td>team</td>
                                     <td>{this.timestamp(user.created)}</td>
                                     {!user.admin.isAdmin ?

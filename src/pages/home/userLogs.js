@@ -118,6 +118,7 @@ class Topics extends Component {
                     </div>
                 ))}
                 {error ? <ErrorMessage error={error}/> : null}
+
             </div>
         );
     }

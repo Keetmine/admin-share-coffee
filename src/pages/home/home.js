@@ -4,6 +4,11 @@ import Topics from "./topics";
 import Users from "./users";
 import Teams from "./teams";
 
+
+import UserPage from "./userPage" // ---------------------------------
+
+
+
 class HomeDashboard extends React.Component {
     state = {
         activeTab: 'Topics'
@@ -22,6 +27,13 @@ class HomeDashboard extends React.Component {
                     <Tab onClick={() => this.openTab('Topics')} active={activeTab === 'Topics'}>Topics</Tab>
                     <Tab onClick={() => this.openTab('Users')} active={activeTab === 'Users'}>Users</Tab>
                     <Tab onClick={() => this.openTab('Teams')} active={activeTab === 'Teams'}>Teams</Tab>
+
+
+                    {/*Временно для теста страницы юзера*/}
+                    <Tab onClick={() => this.openTab('UserPage')} active={activeTab === 'UserPage'}>Page</Tab>
+                    {/*-----------------------------------*/}
+
+
                 </TabContainer>
                 {activeTab === 'Topics' && (
                     <Topics/>
@@ -30,8 +42,19 @@ class HomeDashboard extends React.Component {
                     <Users/>
                 )}
                 {activeTab === 'Teams' && (
-                    <Teams />
+                    <Teams/>
                 )}
+
+
+
+                {/*--------------------------------*/}
+                {activeTab === 'UserPage' && (
+                    <UserPage/>
+                )}
+                {/*-------------------------------*/}
+
+
+
             </div>
         );
     }

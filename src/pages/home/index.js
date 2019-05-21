@@ -27,7 +27,6 @@ class Home extends React.Component {
 
 	update = () => {
 		this.setState({ state: this.state });
-
 	}
 
 	render() {

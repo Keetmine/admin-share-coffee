@@ -62,7 +62,7 @@ class TopicDropdown extends Component {
 }
 
 
-class Topics extends Component {
+class UserTopics extends Component {
 
     constructor(props) {
         super(props);
@@ -118,6 +118,7 @@ class Topics extends Component {
                     </div>
                 ))}
                 {error ? <ErrorMessage error={error}/> : null}
+
             </div>
         );
     }
@@ -125,11 +126,11 @@ class Topics extends Component {
 
 }
 
-Topics.propTypes = {
+UserTopics.propTypes = {
     history: PropTypes.object,
     location: PropTypes.object,
     children: PropTypes.object,
     dispatch: PropTypes.func
 };
 
-export default (Topics);
+export default (UserTopics);
