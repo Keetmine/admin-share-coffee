@@ -2,135 +2,76 @@ import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
 import PropTypes from 'prop-types';
 import ErrorMessage from "../../components/ErrorMessage";
-import {Dropdown, DropdownContent, DropdownItem} from "../../ui/components/dropdown";
 import requests from "../../helpers/requests";
-import {Button} from "../../ui/components/button";
+import { Button } from "../../ui/components/button";
 
 
-class TopicDropdown extends Component {
+class OneTopics extends Component {
 
-    state = {
-        subscribers: [],
-        openSubscribers: '',
-        error: ''
+  constructor(props) {
+    super(props);
+    this.state = {
+        event: [],
+      error: ''
     }
+  }
 
-    componentDidMount() {
-        this.getSubscribers(this.props.id);
-    }
+  componentDidMount () {
+      this.getData(this.props.id)
+  }
 
-    getSubscribers = (id) => {
-        const requestUrl = `https://forge-development.herokuapp.com/api/users/?events.eventId=${id}`;
+  getData(id) {
+    const requestUrl = `https://forge-development.herokuapp.com/api/events/${id}`
 
-        requests.get(requestUrl)
-            .then(data => {
-                this.setState({
-                    subscribers: data.object,
-                    error: data.message
-                })
-            });
-    }
+    requests.get(requestUrl)
+      .then(data => {
+          console.log(data)
+        this.setState({
+          event: data.object,
+          error: data.message
+        })
+      });
+  }
 
-    openSubscribers = (id) => {
-        if (this.state.openSubscribers === id) {
-            this.setState({openSubscribers: ''})
-        } else {
-            this.setState({openSubscribers: id})
-        }
-    }
+  render() {
+    const {event, error} = this.state;
+    return (
+      <div>
+          <div key={event._id} className={'one-topic'}>
+            <Link to={{pathname: `/topic/${event._id}`}} className={'title'}>
+              <span className={`event-status ${event.active ? 'active' : ''}`}/>
+              {event.title}
+            </Link>
+            <div></div>
+            <span>Place: </span>
+            <div>{event.address}</div>
+            <span>Time:</span>
+            <div>{event.options && event.options.times[0]}</div>
+            <Button>unsubscribe</Button>
+          </div>
+        {error ? <ErrorMessage error={error}/> : null}
 
-
-    render() {
-        const {subscribers, openSubscribers} = this.state;
-        const {id} = this.props;
-
-        return (
-            <Dropdown length={subscribers.length}
-                      onClick={() => subscribers.length > 0 && this.openSubscribers(id)}
-                      open={openSubscribers === id}>
-                {subscribers.length > 0 ? `Subscribers (${subscribers.length})` : `(0 Subscribers)`}
-                <DropdownContent open={openSubscribers === id}>
-                    {subscribers.map(subscriber => (
-                        <DropdownItem key={subscriber._id}>{subscriber.firstName} {subscriber.lastName}</DropdownItem>
-                    ))}
-                </DropdownContent>
-            </Dropdown>
-        )
-
-    }
+      </div>
+    );
+  }
 
 }
 
 
 class UserTopics extends Component {
 
-    constructor(props) {
-        super(props);
-    }
-
-    state = {
-        events: [],
-        error: '',
-    };
-
-    componentDidMount() {
-        this.getData();
-    }
-
-    getData() {
-        const requestUrl = 'https://forge-development.herokuapp.com/api/events/';
-
-        requests.get(requestUrl)
-            .then(data => {
-                this.setState({
-                    events: data.object,
-                    error: data.message
-                })
-            });
-    }
-
-    generatePairs (id) {
-        const requestUrl = `https://forge-development.herokuapp.com/api/randomizer/${id}`;
-        requests.post(requestUrl)
-            .then(data => {
-                console.log(data)
-            });
-    }
-
-
     render() {
-        const {events, error} = this.state;
+        const {events, error} = this.props;
         return (
             <div>
                 {events && events.length > 0 && events.map(event => (
-                    <div key={event._id} className={'one-topic'}>
-                        <Link to={{pathname: `/topic/${event._id}`}} className={'title'}>
-                            <span className={`event-status ${event.active ? 'active' : ''}`}/>
-                            {event.title}
-                        </Link>
-
-                        <TopicDropdown id={event._id}/>
-                        <span>Place: </span>
-                        <div>{event.address}</div>
-                        <span>Time:</span>
-                        <div>{event.options.times}</div>
-                        <Button onClick={() => this.generatePairs(event._id)}>pairs</Button>
-                    </div>
+                  <OneTopics id={event.eventId} key={event.eventId} />
                 ))}
                 {error ? <ErrorMessage error={error}/> : null}
-
             </div>
         );
     }
 
-
 }
-
-UserTopics.propTypes = {
-    history: PropTypes.object,
-    location: PropTypes.object,
-    children: PropTypes.object,
-    dispatch: PropTypes.func
-};
 
 export default (UserTopics);

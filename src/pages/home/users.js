@@ -4,8 +4,6 @@ import PropTypes from 'prop-types';
 import ErrorMessage from "../../components/ErrorMessage";
 import Pagination from "../../components/Pagination";
 import {Button, ButtonText} from "../../ui/components/button";
-import UserPage from "./userPage"
-import Login from '../auth/Login'
 
 class Topics extends Component {
 

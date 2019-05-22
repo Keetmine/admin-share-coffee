@@ -1,31 +1,33 @@
 import React from 'react';
 import {Tab, TabContainer} from '../../ui/core/home';
 import UserTopics from "./userTopics";
-import Login from '../auth/Login';
 import UserInfo from "./userInfo";
-import HomeDashboard from './home';
 import UserLogs from "./userLogs";
-import Navbar from "../../components/Navbar";
+import requests from "../../helpers/requests";
 
-class UserPage extends React.Component {
+class OneUser extends React.Component {
     state = {
-        activeTab: 'UserInfo'
+        activeTab: 'UserInfo',
+          user: [],
+          error: '',
     };
 
-    componentDidMount() {
-        const token = localStorage.getItem('token');
-        if (token !== null) {
-            this.setState({isLogin: true})
-        }
-    }
+      componentDidMount() {
+        this.getData();
+      }
 
-    setLogin = (state) => {
-        this.setState({isLogin: state})
-    }
+      getData() {
+        const requestUrl = `https://forge-development.herokuapp.com/api/users/${this.props.match.params.id}`
 
-    update = () => {
-        this.setState({ state: this.state });
-    }
+        requests.get(requestUrl)
+          .then(data => {
+            this.setState({
+              user: data.object,
+              error: data.message
+            })
+          });
+      }
+
 
     openTab = tabName => {
         this.setState({activeTab: tabName});
@@ -33,36 +35,29 @@ class UserPage extends React.Component {
 
 
     render() {
-        const {activeTab} = this.state;
+        const {activeTab, user, error} = this.state;
 
         return (
             <div>
-                <Navbar setLogin={this.setLogin} isLogin={this.state.isLogin}/>
                 <h1>About user</h1>
-                {!this.state.isLogin ?
-                    <Login history={this.props.history}
-                           update={this.update}
-                           setLogin={this.setLogin}/>
-                    :
-                    <userInfo />
-                }
+
                 <TabContainer>
                     <Tab onClick={() => this.openTab('UserInfo')} active={activeTab === 'UserInfo'}>User</Tab>
                     <Tab onClick={() => this.openTab('UserTopics')} active={activeTab === 'UserTopics'}>Topics</Tab>
                     <Tab onClick={() => this.openTab('UserLogs')} active={activeTab === 'UserLogs'}>Logs</Tab>
                 </TabContainer>
                 {activeTab === 'UserInfo' && (
-                    <UserInfo/>
+                    <UserInfo user={user} error={error}/>
                 )}
                 {activeTab === 'UserTopics' && (
-                    <UserTopics/>
+                    <UserTopics events={user.events} error={error}/>
                 )}
                 {activeTab === 'UserLogs' && (
-                    <UserLogs />
+                    <UserLogs log={user.logs} error={error}/>
                 )}
             </div>
         );
     }
 }
 
-export default (UserPage);
+export default OneUser;
